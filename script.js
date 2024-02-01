@@ -69,3 +69,12 @@ function addTask(){
         tasklist.appendChild(listItem);
     }
 
+    function toggleTheme(){
+        document.body.classList.toggle('dark-mode');
+        const buttons= document.querySelectorAll('button');
+        buttons.forEach(button =>{
+            button.style.backgroundColor=getComputedStyle(document.body).getPropertyValue('--button-background');
+            button.style.color=getComputedStyle(document.body).getPropertyValue('--button-color');
+        })
+    }
+

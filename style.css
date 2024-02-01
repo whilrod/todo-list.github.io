@@ -2,13 +2,15 @@ body {
  font-family: Arial,sans-serif;  
  margin:0;
  padding:0;
- background-color: #f4f4f4; 
+ background-color: var(--background-color,#f4f4f4); 
+ color:var(--color,#333);
+ transition: background-color 0.7s, color 0.5s;
 }
 
 .container {
     max-width: 600px;
     margin: 50px auto;
-    background-color: #d3d0d0;
+    background-color:var(--background-color, #d3d0d0);
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 0 10px  rgba(0,0,0,0.1);
@@ -32,9 +34,29 @@ li{
     background-color: #eee;
     margin-bottom: 10px;
     border-radius: 5px;
+    color:#333;
 }
 
 li.completed{
     text-decoration: line-through;
     color: #888;
+}
+
+#theme-switcher{
+    margin-top: 10px;
+}
+
+#theme-switcher button{
+    background-image: url('dia-y-noche.png');
+    background-repeat: no-repeat;
+    background-size: 30px;
+    width: 35px;
+    height: 35px;
+}
+
+body.dark-mode{
+    --background-color:#333;
+    --color:#fff;
+    --button-background:#555;
+    --button-color:#fff;
 }
