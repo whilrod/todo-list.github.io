@@ -14,7 +14,17 @@
         <h1>Task List</h1>
         <div id="task-form">
             <input type="text" id="newTask" placeholder="Add new task">
+            <br>
+            <input type="text" id="taskCategory" placeholder="Category">
+            <br>
             <button onclick="addTask()">Add Task</button>
+            
+        </div>
+        <div id="category-filter">
+            <label for="filterCategory">Filter:</label>
+            <select id="filterCategory" onchange="filterTasks()">
+                <option value="">All</option>
+            </select>
         </div>
         <ul id="task-list"></ul>
     </div>

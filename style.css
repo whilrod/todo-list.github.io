@@ -46,6 +46,15 @@ li.completed{
     margin-top: 10px;
 }
 
+#newTask{
+    width: 300px;
+}
+
+li button{
+    background-color: var(--button-background);
+    color:var(--button-color);
+}    
+
 #theme-switcher button{
     background-image: url('dia-y-noche.png');
     background-repeat: no-repeat;
@@ -59,4 +68,17 @@ body.dark-mode{
     --color:#fff;
     --button-background:#555;
     --button-color:#fff;
+}
+
+#category-filter{
+    margin-bottom: 10px;
+}
+
+#filterCategory{
+    padding: 5px;
+}
+
+.category{
+    color:#0509f0;
+    margin-left: 10px;
 }

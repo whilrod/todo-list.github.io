@@ -1,6 +1,42 @@
 document.addEventListener('DOMContentLoaded', function(){
     loadTasks();
+    loadCategories();
 });
+
+
+
+function loadCategories(){
+    const tasks=JSON.parse(localStorage.getItem('tasks'))||[];
+    const categoriesSet=new Set(tasks.map(task=>task.category));
+    const filterCategorySelect=document.getElementById('filterCategory');
+
+    filterCategorySelect.innerHTML='<option value="">All</option>';
+    categoriesSet.forEach(category=>{
+        const option=document.createElement('option');
+        option.value=category;
+        option.textContent=category;
+        filterCategorySelect.appendChild(option);
+    });
+}
+
+function filterTasks(){
+    const filterCategorySelect=document.getElementById('filterCategory');
+    const selectedCategory=filterCategorySelect.value;
+
+    const tasks=JSON.parse(localStorage.getItem('tasks'))||[];
+    const filteredTasks=selectedCategory ? tasks.filter(task => task.category===selectedCategory):tasks;
+    displayTasks(filteredTasks);
+}
+
+function displayTasks(tasks){
+    const tasklist=document.getElementById('task-list');
+    tasklist.innerHTML='';
+    //const allTask=JSON.parse(localStorage.getItem('tasks')) || [];
+    tasks.forEach((task)=>{
+       // const realIndex=allTask.findIndex(t=> t === task);
+        addTaskToDOM(task);
+    });
+}
 
 function loadTasks(){
     const taskList=document.getElementById('task-list');
@@ -17,53 +53,70 @@ function loadTasks(){
 function addTask(){
     const newTaskInput=document.getElementById('newTask');
     const taskText=newTaskInput.value.trim();
-    if (taskText!= ""){
+    const taskCategoryInput=document.getElementById('taskCategory');
+    const taskCategory=taskCategoryInput.value.trim();
+    if (taskText!= "" && taskCategory!=''){
         //obtiene tareas del almacenamiento local
         const tasks=JSON.parse(localStorage.getItem('tasks'))|| [];
-
+        const taskID=Date.now();
         //agregar nueva tarea
-        tasks.push({text:taskText, completed:false});
+        tasks.push({id:taskID,text:taskText, completed:false, category:taskCategory});
 
+        
         //guardar tareas en almacenamiento local
         localStorage.setItem('tasks', JSON.stringify(tasks));
 
         //limpiar input
         newTaskInput.value='';
+        taskCategoryInput.value='';
 
         //recargar todas las tareas
         loadTasks();
+        loadCategories();
     }
 }
 
-    function toggleTask(index){
+    function toggleTask(id){
         const tasks=JSON.parse(localStorage.getItem('tasks'))|| [];
 
+        const task=tasks.find(t =>t.id === id);
         //cambiar estado de tarea completada
-        tasks[index].completed=!tasks[index].completed;
+        
 
-        //guardar tareas actualizadas en local storage
+        if (task){
+            task.completed=!task.completed;
+
+            //guardar tareas actualizadas en local storage
         localStorage.setItem('tasks', JSON.stringify(tasks));
-
         loadTasks();
+        filterTasks();
+        //toggleTheme();
+
+        }
+        
+        
     }
 
-    function deleteTask(index){
-        const tasks=JSON.parse(localStorage.getItem('tasks')) || [];
+    function deleteTask(id){
+        let tasks=JSON.parse(localStorage.getItem('tasks')) || [];
 
         //delete task
-        tasks.splice(index,1);
+        tasks=tasks.filter(task=> task.id !==id);
+        //tasks.splice(index,1);
 
         localStorage.setItem('tasks', JSON.stringify(tasks));
 
         loadTasks();
+        loadCategories();
     }
 
-    function addTaskToDOM(task,index){
+    function addTaskToDOM(task){
         const tasklist = document.getElementById('task-list');
         const listItem = document.createElement('li');
-        listItem.innerHTML=`<input type="checkbox" ${task.completed ? 'checked' : ''} onChange="toggleTask(${index})">
+        listItem.innerHTML=`<input type="checkbox" ${task.completed ? 'checked' : ''} onChange="toggleTask(${task.id})">
         <span class="${task.completed ? 'completed':''}"> ${task.text}</span>
-        <button onClick="deleteTask(${index})">Delete</button>
+        <span class="category">${task.category}</span>
+        <button onClick="deleteTask(${task.id})">Delete</button>
         `;
 
         tasklist.appendChild(listItem);
