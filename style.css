@@ -17,8 +17,25 @@ body {
 }
 
 #task-form{
+    justify-content: space-between;
     margin-bottom: 20px;
+    
+}
 
+#task-form button{
+    justify-content: space-between;
+    margin-top: 10px;
+    border-radius: 10px;
+    font-size: 22px;
+    margin: 10px;
+}
+
+#task-form input{
+    border-radius: 10px;
+    padding: 5px;
+    width: 300px;
+    margin:10px;
+    font-size: 18px;
 }
 
 ul{
@@ -46,9 +63,7 @@ li.completed{
     margin-top: 10px;
 }
 
-#newTask{
-    width: 300px;
-}
+
 
 li button{
     background-color: var(--button-background);
@@ -81,4 +96,14 @@ body.dark-mode{
 .category{
     color:#0509f0;
     margin-left: 10px;
+}
+
+.h1{
+    display: flex;
+    justify-content: center;
+    justify-content: space-between;
+}
+
+.h1 button{
+    margin-top: 10px;
 }
