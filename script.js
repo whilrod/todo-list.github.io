@@ -1,4 +1,9 @@
 document.addEventListener('DOMContentLoaded', function(){
+    const preferredTheme= localStorage.getItem('preferredTheme');
+    if (preferredTheme){
+        document.body.classList.add(preferredTheme);
+        updatedButtonStyles();
+    }
     loadTasks();
     loadCategories();
 });
@@ -123,11 +128,24 @@ function addTask(){
     }
 
     function toggleTheme(){
-        document.body.classList.toggle('dark-mode');
+        //document.body.classList.toggle('dark-mode');
+        const body=document.body;
         const buttons= document.querySelectorAll('button');
         buttons.forEach(button =>{
             button.style.backgroundColor=getComputedStyle(document.body).getPropertyValue('--button-background');
             button.style.color=getComputedStyle(document.body).getPropertyValue('--button-color');
-        })
+        });
+        body.classList.toggle('dark-mode');
+        const currentThema=body.classList.contains('dark-mode') ? 'dark-mode':'';
+        localStorage.setItem('preferredTheme', currentThema);
+        updatedButtonStyles();
+    }
+
+    function updatedButtonStyles(){
+        const buttons = document.querySelectorAll('button');
+        buttons.forEach(button =>{
+            button.style.backgroundColor= getComputedStyle(document.body).getPropertyValue('--button-background');
+            button.style.color=getComputedStyle(document.body).getPropertyValue('--button-color');
+        });
     }
 
